@@ -1,0 +1,76 @@
+import {motion, spring} from 'framer-motion'
+import { useState } from 'react'
+
+const Test = () => {
+  const [open, setOpen] = useState(false)
+  const variants = {
+    visible:{opacity:1, scale:1, x:400, transition:{type:'spring', stiffness:200, damping:50}},
+    hidden:{opacity:0.2, scale:0.2, x:100},
+  }
+  const variantstwo = {
+    visible:{opacity:1, scale:1, x: -200, transition:{staggerChildren:1, type:'spring', stiffness:200}},
+    hidden:{opacity:0, scale:0.2, x:-400},
+  }
+  const variantsthree = {
+    visible: (i) => ({
+        opacity:1,
+        scale:1,
+        x: -200 + i*10,
+        y: 150,
+        transition:{staggerChildren:1, type:'spring', stiffness:200}
+      }),
+    hidden:{opacity:0, scale:0.2, x:-400, y:150},
+  }
+  const items = [
+    "item1", "item2", 'item3', 'item4'
+  ]
+  return (
+    <div className="course">
+        <motion.div className="box" 
+        initial={{opacity:0, scale:0.25}}
+        animate={{opacity:1, scale:1, x:-200, y: -200}}
+        transition={{duration:2, delay:2}}>
+        </motion.div>
+        <motion.div className="box"
+          initial={{opacity: 0.2, scale: 0.25}}
+          transition={{duration: 2}}
+          whileHover={{opacity: 1, scale: 1}}
+          drag>
+        </motion.div>
+        {/* <motion.div className="box"
+          variants={variants}
+          initial='hidden'
+          transition={{duration: 2}}
+          whileHover='visible'
+          drag>
+        </motion.div> */}
+        <motion.div className="box"
+          variants={variants}
+          animate={open ? 'visible' : 'hidden'}
+          drag>
+        </motion.div>
+        <button onClick={()=>setOpen(priv=>!priv)}>Click Me!!!</button>
+        {/* <motion.ul
+        variants={variantstwo}
+        initial='hidden'
+        animate='visible'>
+          {items.map((item) => (
+            <motion.li key={item}
+            variants={variantstwo}>{item}</motion.li>
+          ))}
+        </motion.ul> */}
+        <motion.ul
+        variants={variantsthree}
+        initial='hidden'
+        animate='visible'>
+          {items.map((item, i) => (
+            <motion.li key={item}
+            variants={variantsthree}
+            custom={i}>{item}</motion.li>
+          ))}
+        </motion.ul>
+    </div>
+  )
+}
+
+export default Test
